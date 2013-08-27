@@ -53,10 +53,10 @@ public class BasicMonkeyServer extends HttpServlet {
         RUNNER.replaceMonkey(this.chaosClass, this.chaosContextClass);
         LOGGER.info("Adding Volume Tagging Monkey.");
         RUNNER.replaceMonkey(this.volumeTaggingClass, this.volumeTaggingContextClass);
-        //LOGGER.info("Adding Janitor Monkey.");
-        //RUNNER.replaceMonkey(this.janitorClass, this.janitorContextClass);
-        //LOGGER.info("Adding Conformity Monkey.");
-        //RUNNER.replaceMonkey(BasicConformityMonkey.class, BasicConformityMonkeyContext.class);
+        LOGGER.info("Adding Janitor Monkey.");
+        RUNNER.replaceMonkey(this.janitorClass, this.janitorContextClass);
+        LOGGER.info("Adding Conformity Monkey.");
+        RUNNER.replaceMonkey(this.conformityClass, this.conformityContextClass);
     }
 
     /**
@@ -95,6 +95,18 @@ public class BasicMonkeyServer extends HttpServlet {
     @SuppressWarnings("rawtypes")
     private Class janitorClass = BasicJanitorMonkey.class;
 
+    /**
+     * make the class of the client object configurable.
+     */
+    @SuppressWarnings("rawtypes")
+    private Class conformityContextClass = BasicConformityMonkeyContext.class;
+
+    /**
+     * make the class of the chaos object configurable.
+     */
+    @SuppressWarnings("rawtypes")
+    private Class conformityClass = BasicConformityMonkey.class;
+
     @Override
     public void init() throws ServletException {
         super.init();
@@ -124,11 +136,17 @@ public class BasicMonkeyServer extends HttpServlet {
         monkeyClass = loadClientClass(clientConfig, "simianarmy.volumetagging.monkey.class");
         this.volumeTaggingClass = (monkeyClass == null ? this.volumeTaggingClass : monkeyClass);
 
-        newContextClass = loadClientClass(clientConfig, "simianarmy.volumetagging.context.class");
-        this.volumeTaggingContextClass = (newContextClass == null ? this.volumeTaggingContextClass : newContextClass);
+        newContextClass = loadClientClass(clientConfig, "simianarmy.janitor.context.class");
+        this.janitorContextClass = (newContextClass == null ? this.janitorContextClass : newContextClass);
 
-        monkeyClass = loadClientClass(clientConfig, "simianarmy.volumetagging.monkey.class");
-        this.volumeTaggingClass = (monkeyClass == null ? this.volumeTaggingClass : monkeyClass);
+        monkeyClass = loadClientClass(clientConfig, "simianarmy.janitor.monkey.class");
+        this.janitorClass = (monkeyClass == null ? this.janitorClass : monkeyClass);
+
+        newContextClass = loadClientClass(clientConfig, "simianarmy.conformity.context.class");
+        this.conformityContextClass = (newContextClass == null ? this.conformityContextClass : newContextClass);
+
+        monkeyClass = loadClientClass(clientConfig, "simianarmy.conformity.monkey.class");
+        this.conformityClass = (monkeyClass == null ? this.conformityClass : monkeyClass);
     }
 
     @SuppressWarnings("rawtypes")

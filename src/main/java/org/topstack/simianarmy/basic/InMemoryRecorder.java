@@ -34,6 +34,8 @@ public class InMemoryRecorder implements MonkeyRecorder {
 
     LinkedList<Event> events = new LinkedList<Event>();
 
+    private static final int MAX_EVENTS = 5000;
+
     /**
      *
      */
@@ -55,7 +57,10 @@ public class InMemoryRecorder implements MonkeyRecorder {
      */
     @Override
     public void recordEvent(Event evt) {
-        events.add(evt);
+        if (events.size()+1 > MAX_EVENTS) {
+            events.pop();
+        }
+        events.push(evt);
     }
 
     /* (non-Javadoc)
@@ -65,27 +70,30 @@ public class InMemoryRecorder implements MonkeyRecorder {
     public List<Event> findEvents(Map<String, String> query, Date after) {
         List<Event> foundEvents = new ArrayList<Event>();
         for (Event evt : events) {
-            if (after != null && after.before(evt.eventTime())) {
+            if (after != null && after.after(evt.eventTime())) {
                 continue;
             }
+            boolean matched = true;
             for (Map.Entry<String, String> pair : query.entrySet()) {
                 if (pair.getKey().equals("id")) {
                     if (! evt.id().equals(pair.getValue())) {
-                        continue;
+                        matched = false;
                     }
                 }
                 if (pair.getKey().equals("monkeyType")) {
-                    if (! evt.monkeyType().equals(pair.getValue())) {
-                        continue;
+                    if (! evt.monkeyType().toString().equals(pair.getValue())) {
+                        matched = false;
                     }
                 }
                 if (pair.getKey().equals("eventType")) {
-                    if (! evt.eventType().equals(pair.getValue())) {
-                        continue;
+                    if (! evt.eventType().toString().equals(pair.getValue())) {
+                        matched = false;
                     }
                 }
             }
-            foundEvents.add(evt);
+            if (matched) {
+                foundEvents.add(evt);
+            }
         }
         return foundEvents;
     }
@@ -105,6 +113,7 @@ public class InMemoryRecorder implements MonkeyRecorder {
     /* (non-Javadoc)
      * @see com.netflix.simianarmy.MonkeyRecorder#findEvents(java.lang.Enum, java.lang.Enum, java.util.Map, java.util.Date)
      */
+    @SuppressWarnings("rawtypes")
     @Override
     public List<Event> findEvents(Enum monkeyType, Enum eventType,
             Map<String, String> query, Date after) {

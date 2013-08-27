@@ -15,17 +15,17 @@
  */
 package org.topstack.simianarmy.basic;
 
-import com.netflix.simianarmy.basic.janitor.BasicJanitorMonkeyContext;
+import com.netflix.simianarmy.basic.conformity.BasicConformityMonkeyContext;
 
 /**
  * @author jgardner
  *
  */
-public class NoOpJanitorMonkeyContext extends
-        BasicJanitorMonkeyContext {
+public class NoOpConformityMonkeyContext extends
+        BasicConformityMonkeyContext {
 
-    /** Skip running janitor monkey; not yet supported on OpenStack. */
-    public NoOpJanitorMonkeyContext() {
+    /** Skip running conformity monkey; not yet supported on OpenStack. */
+    public NoOpConformityMonkeyContext() {
         setRecorder(new InMemoryRecorder());
     }
 
