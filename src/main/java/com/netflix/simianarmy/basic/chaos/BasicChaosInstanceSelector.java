@@ -78,7 +78,7 @@ public class BasicChaosInstanceSelector implements ChaosInstanceSelector {
     }
 
     private String selectOneInstance(InstanceGroup group, double probability) {
-        Validate.isTrue(probability < 1);
+        Validate.isTrue(probability <= 1.0);
         if (probability <= 0) {
             logger().info("Group {} [type {}] has disabled probability: {}",
                     new Object[] {group.name(), group.type(), probability});

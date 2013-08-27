@@ -52,11 +52,11 @@ public class BasicMonkeyServer extends HttpServlet {
         LOGGER.info("Adding Chaos Monkey.");
         RUNNER.replaceMonkey(this.chaosClass, this.chaosContextClass);
         LOGGER.info("Adding Volume Tagging Monkey.");
-        RUNNER.replaceMonkey(VolumeTaggingMonkey.class, BasicVolumeTaggingMonkeyContext.class);
-        LOGGER.info("Adding Janitor Monkey.");
-        RUNNER.replaceMonkey(BasicJanitorMonkey.class, BasicJanitorMonkeyContext.class);
-        LOGGER.info("Adding Conformity Monkey.");
-        RUNNER.replaceMonkey(BasicConformityMonkey.class, BasicConformityMonkeyContext.class);
+        RUNNER.replaceMonkey(this.volumeTaggingClass, this.volumeTaggingContextClass);
+        //LOGGER.info("Adding Janitor Monkey.");
+        //RUNNER.replaceMonkey(this.janitorClass, this.janitorContextClass);
+        //LOGGER.info("Adding Conformity Monkey.");
+        //RUNNER.replaceMonkey(BasicConformityMonkey.class, BasicConformityMonkeyContext.class);
     }
 
     /**
@@ -70,6 +70,30 @@ public class BasicMonkeyServer extends HttpServlet {
      */
     @SuppressWarnings("rawtypes")
     private Class chaosClass = com.netflix.simianarmy.basic.chaos.BasicChaosMonkey.class;
+
+    /**
+     * make the class of the client object configurable.
+     */
+    @SuppressWarnings("rawtypes")
+    private Class volumeTaggingContextClass = BasicVolumeTaggingMonkeyContext.class;
+
+    /**
+     * make the class of the chaos object configurable.
+     */
+    @SuppressWarnings("rawtypes")
+    private Class volumeTaggingClass = VolumeTaggingMonkey.class;
+
+    /**
+     * make the class of the client object configurable.
+     */
+    @SuppressWarnings("rawtypes")
+    private Class janitorContextClass = BasicJanitorMonkeyContext.class;
+
+    /**
+     * make the class of the chaos object configurable.
+     */
+    @SuppressWarnings("rawtypes")
+    private Class janitorClass = BasicJanitorMonkey.class;
 
     @Override
     public void init() throws ServletException {
@@ -91,8 +115,20 @@ public class BasicMonkeyServer extends HttpServlet {
         Class newContextClass = loadClientClass(clientConfig, "simianarmy.client.context.class");
         this.chaosContextClass = (newContextClass == null ? this.chaosContextClass : newContextClass);
 
-        Class newChaosClass = loadClientClass(clientConfig, "simianarmy.client.chaos.class");
-        this.chaosClass = (newChaosClass == null ? this.chaosClass : newChaosClass);
+        Class monkeyClass = loadClientClass(clientConfig, "simianarmy.client.chaos.class");
+        this.chaosClass = (monkeyClass == null ? this.chaosClass : monkeyClass);
+
+        newContextClass = loadClientClass(clientConfig, "simianarmy.volumetagging.context.class");
+        this.volumeTaggingContextClass = (newContextClass == null ? this.volumeTaggingContextClass : newContextClass);
+
+        monkeyClass = loadClientClass(clientConfig, "simianarmy.volumetagging.monkey.class");
+        this.volumeTaggingClass = (monkeyClass == null ? this.volumeTaggingClass : monkeyClass);
+
+        newContextClass = loadClientClass(clientConfig, "simianarmy.volumetagging.context.class");
+        this.volumeTaggingContextClass = (newContextClass == null ? this.volumeTaggingContextClass : newContextClass);
+
+        monkeyClass = loadClientClass(clientConfig, "simianarmy.volumetagging.monkey.class");
+        this.volumeTaggingClass = (monkeyClass == null ? this.volumeTaggingClass : monkeyClass);
     }
 
     @SuppressWarnings("rawtypes")

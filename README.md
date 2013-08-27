@@ -3,6 +3,14 @@
 The Simian Army is a suite of tools for keeping your cloud operating in top form.  Chaos Monkey, the first member, is a resiliency tool that
 helps ensure that your applications can tolerate random instance failures
 
+## About this fork
+
+This fork of SimianArmy includes some small changes to support running SimianArmy against OpenStack-based private and public clouds.
+
+Changes include:
+* Additional configuration options to support configuring local cloud URL, rather than assumed AWS
+* Removal of Amazon SDB; event log is maintained in memory instead
+
 ## CloudBees build status
 [![Build Status](https://netflixoss.ci.cloudbees.com/job/SimianArmy-master/badge/icon)](https://netflixoss.ci.cloudbees.com/job/SimianArmy-master/)
 
