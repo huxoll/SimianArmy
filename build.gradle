@@ -23,6 +23,10 @@ apply plugin: 'jetty'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 
+jettyRun {
+    httpPort = 8000
+}
+
 dependencies {
     // for the VMWareClient
     compile 'com.cloudbees.thirdparty:vijava:5.0.0'
