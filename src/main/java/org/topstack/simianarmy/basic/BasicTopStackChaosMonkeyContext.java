@@ -15,13 +15,11 @@
  */
 package org.topstack.simianarmy.basic;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.amazonaws.services.autoscaling.AmazonAutoScalingClient;
 import com.amazonaws.services.ec2.AmazonEC2;
 import com.amazonaws.services.elasticloadbalancing.AmazonElasticLoadBalancingClient;
 import com.amazonaws.services.simpledb.AmazonSimpleDB;
+import com.netflix.simianarmy.MonkeyConfiguration;
 import com.netflix.simianarmy.basic.BasicChaosMonkeyContext;
 import com.netflix.simianarmy.client.aws.AWSClient;
 
@@ -35,9 +33,6 @@ import com.netflix.simianarmy.client.aws.AWSClient;
  */
 public class BasicTopStackChaosMonkeyContext extends BasicChaosMonkeyContext {
 
-   /** The Constant LOGGER. */
-   private static final Logger LOGGER = LoggerFactory.getLogger(BasicTopStackChaosMonkeyContext.class);
-
    private String autoScaleUrl;
 
    private String computeUrl;
@@ -47,14 +42,14 @@ public class BasicTopStackChaosMonkeyContext extends BasicChaosMonkeyContext {
    /** protected constructor as the Shell is meant to be subclassed. */
    public BasicTopStackChaosMonkeyContext() {
        super();
-       replaceRecorder();
+       replaceRecorder(configuration());
        autoScaleUrl = configuration().getStr("simianarmy.client.topstack.autoscale");
        computeUrl = configuration().getStr("simianarmy.client.topstack.compute");
        loadBalanceUrl = configuration().getStr("simianarmy.client.topstack.slb");
    }
 
-   private void replaceRecorder() {
-       setRecorder(new InMemoryRecorder());
+   private void replaceRecorder(MonkeyConfiguration configuration) {
+       setRecorder(new SimplerDbRecorder(configuration));
    }
 
    /**

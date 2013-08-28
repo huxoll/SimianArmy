@@ -308,7 +308,7 @@ public class BasicChaosMonkey extends ChaosMonkey {
         Validate.notNull(group);
         Validate.notEmpty(inst);
         String prop = NS + "leashed";
-        if (cfg.getBoolOrElse(prop, true)) {
+        if (cfg.getBoolOrElse(prop, false)) {
             LOGGER.info("leashed ChaosMonkey prevented from killing {} from group {} [{}], set {}=false",
                     new Object[]{inst, group.name(), group.type(), prop});
             reportEventForSummary(EventTypes.CHAOS_TERMINATION_SKIPPED, group, inst);
@@ -317,7 +317,7 @@ public class BasicChaosMonkey extends ChaosMonkey {
             try {
                 Event evt = recordTermination(group, inst);
                 sendTerminationNotification(group, inst);
-                context().cloudClient().terminateInstance(inst);
+                //context().cloudClient().terminateInstance(inst);
                 LOGGER.info("Terminated {} from group {} [{}]", new Object[]{inst, group.name(), group.type()});
                 reportEventForSummary(EventTypes.CHAOS_TERMINATION, group, inst);
                 return evt;

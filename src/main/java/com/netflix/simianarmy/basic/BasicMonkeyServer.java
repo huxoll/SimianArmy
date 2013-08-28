@@ -202,9 +202,9 @@ public class BasicMonkeyServer extends HttpServlet {
         LOGGER.info("Stopping Chaos Monkey.");
         RUNNER.removeMonkey(this.chaosClass);
         LOGGER.info("Stopping volume tagging Monkey.");
-        RUNNER.removeMonkey(VolumeTaggingMonkey.class);
+        RUNNER.removeMonkey(this.volumeTaggingClass);
         LOGGER.info("Stopping Janitor Monkey.");
-        RUNNER.removeMonkey(BasicJanitorMonkey.class);
+        RUNNER.removeMonkey(this.janitorClass);
         super.destroy();
     }
 }
