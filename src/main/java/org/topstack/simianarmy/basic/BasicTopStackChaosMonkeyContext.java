@@ -49,7 +49,7 @@ public class BasicTopStackChaosMonkeyContext extends BasicChaosMonkeyContext {
    }
 
    private void replaceRecorder(MonkeyConfiguration configuration) {
-       setRecorder(new SimplerDbRecorder(configuration));
+       setRecorder(SimplerDbRecorder.getInstance(configuration));
    }
 
    /**

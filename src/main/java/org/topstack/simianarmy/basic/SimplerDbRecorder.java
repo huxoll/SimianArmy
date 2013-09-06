@@ -57,10 +57,19 @@ public class SimplerDbRecorder implements MonkeyRecorder {
 
     private boolean initialized = false;
 
+    private static SimplerDbRecorder instance = null;
+
+    public static SimplerDbRecorder getInstance(MonkeyConfiguration configuration) {
+        if (instance == null) {
+            instance = new SimplerDbRecorder(configuration);
+        }
+        return instance;
+    }
+
     /**
      *
      */
-    public SimplerDbRecorder(MonkeyConfiguration configuration) {
+    private SimplerDbRecorder(MonkeyConfiguration configuration) {
         dbFilename = configuration.getStrOrElse("simianarmy.db.file", null);
     }
 
@@ -176,9 +185,11 @@ public class SimplerDbRecorder implements MonkeyRecorder {
 
     public static class MapDbRecorderEvent implements MonkeyRecorder.Event, Serializable {
         /** The monkey type. */
+        @SuppressWarnings("rawtypes")
         private Enum monkeyType;
 
         /** The event type. */
+        @SuppressWarnings("rawtypes")
         private Enum eventType;
 
         /** The event id. */
@@ -250,6 +261,7 @@ public class SimplerDbRecorder implements MonkeyRecorder {
         /* (non-Javadoc)
          * @see com.netflix.simianarmy.MonkeyRecorder.Event#monkeyType()
          */
+        @SuppressWarnings("rawtypes")
         @Override
         public Enum monkeyType() {
             return monkeyType;
@@ -258,6 +270,7 @@ public class SimplerDbRecorder implements MonkeyRecorder {
         /* (non-Javadoc)
          * @see com.netflix.simianarmy.MonkeyRecorder.Event#eventType()
          */
+        @SuppressWarnings("rawtypes")
         @Override
         public Enum eventType() {
             return eventType;
