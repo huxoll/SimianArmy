@@ -57,6 +57,8 @@ public class BasicMonkeyServer extends HttpServlet {
         RUNNER.replaceMonkey(this.janitorClass, this.janitorContextClass);
         LOGGER.info("Adding Conformity Monkey.");
         RUNNER.replaceMonkey(this.conformityClass, this.conformityContextClass);
+        LOGGER.info("Adding Sniper Monkey.");
+        RUNNER.replaceMonkey(this.sniperClass, this.sniperContextClass);
     }
 
     /**
@@ -70,6 +72,18 @@ public class BasicMonkeyServer extends HttpServlet {
      */
     @SuppressWarnings("rawtypes")
     private Class chaosClass = com.netflix.simianarmy.basic.chaos.BasicChaosMonkey.class;
+    
+    /**
+     * make the class of the client object configurable.
+     */
+    @SuppressWarnings("rawtypes")
+    private Class sniperContextClass = com.netflix.simianarmy.basic.BasicSniperMonkeyContext.class;
+
+    /**
+     * make the class of the sniper object configurable.
+     */
+    @SuppressWarnings("rawtypes")
+    private Class sniperClass = com.netflix.simianarmy.basic.sniper.BasicSniperMonkey.class;
 
     /**
      * make the class of the client object configurable.
