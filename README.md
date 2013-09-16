@@ -10,7 +10,7 @@ This fork of SimianArmy includes some small changes to support running SimianArm
 Changes include:
 * Additional configuration options to support configuring local cloud URL, rather than assumed AWS
 * Removal of Amazon SDB; event log is maintained in memory instead
-
+* By default, jetty runs on port 9000 
 ## CloudBees build status
 [![Build Status](https://netflixoss.ci.cloudbees.com/job/SimianArmy-master/badge/icon)](https://netflixoss.ci.cloudbees.com/job/SimianArmy-master/)
 
